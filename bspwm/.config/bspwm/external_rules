@@ -1,0 +1,39 @@
+#!/bin/sh
+
+wid=$1
+class=$2
+instance=$3
+consequences=$4
+prop=$(xprop -id "$wid")
+
+
+## -------------------------------------------------------------------
+## Logs --------------------------------------------------------------
+## -------------------------------------------------------------------
+
+#notify-send "called $1 $2 $3 $4 $title"
+
+echo "-----------------------------------------------------------" >> /tmp/.log_bspwm_external_rules
+echo $wid >> /tmp/.log_bspwm_external_rules
+echo $class >> /tmp/.log_bspwm_external_rules
+echo $instance >> /tmp/.log_bspwm_external_rules
+echo $consequences >> /tmp/.log_bspwm_external_rules
+#echo $prop >> /tmp/.log_bspwm_external_rules
+
+## ------------------------------------------------------------------
+
+
+
+## ------------------------------------------------------------------
+## Remove borders and set floating for firefox integrated windows ---
+## ex. Downloads windows --------------------------------------------
+## ------------------------------------------------------------------
+
+if [ $class == firefox ] && [ $instance == Places ]; then
+	# notify-send "No Border Window"
+
+	printf "\nset { state=floating border=off } rules to: \n\t wid $wid; class $class; instance $instance \n" >> /tmp/.log_bspwm_external_rules
+	echo "state=floating border=off"
+fi
+
+#--------------------------------------------------------------------

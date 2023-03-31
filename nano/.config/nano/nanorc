@@ -1,0 +1,18 @@
+include /usr/share/nano/*.nanorc
+include /usr/share/nano/extra/*.nanorc
+include /usr/share/nano-syntax-highlighting/*.nanorc
+
+set guidestripe 80
+set emptyline
+set linenumbers
+# set mouse
+set autoindent
+set tabsize 4
+set boldtext
+
+set numbercolor bold,white,blue
+set titlecolor bold,white,blue
+set statuscolor bold,blue,white
+set stripecolor bold,blue,white
+set keycolor bold,blue,white
+
