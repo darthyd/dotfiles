@@ -1,0 +1,14 @@
+#!/bin/sh
+
+
+[[ ! -d $1 ]] && [[ ! -f $1 ]] && echo \
+"$1 não é um arquivo ou diretório válido" && exit -1
+
+[[ -d ~/dotfiles/$1 ]] && echo \
+ "~/dotfiles/$1 já existe" && exit -1
+
+mkdir -p ~/dotfiles/$1
+
+mkdir -p ~/dotfiles/$1/.config/
+
+mv $1 ~/dotfiles/$1/.config/
