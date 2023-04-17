@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+curl -s "https://wttr.in/Taciba?format=%c%t" | tr -d '+' || echo "N/A"

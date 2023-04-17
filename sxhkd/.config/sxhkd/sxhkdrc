@@ -1,12 +1,3 @@
-
-super + d
-	killall dunst; \
-	dunst &; \
-	notify-send -u normal "Está é uma notificação normal"; \
-	notify-send -u low "Está é uma notificação de urgência baixa"; \
-	notify-send -u critical "Está é uma notificação critíca"
-
-
 #------------------------------------------------
 # launch programs
 #------------------------------------------------
@@ -20,6 +11,9 @@ super + e
 super + r
 	kitty -e ranger
 
+super + n
+    alacritty -e nvim $(fd -tf -tl . $HOME/{.,dotfiles/*/.config} | fzf --preview-window=hidden --color=bw --reverse --border)
+
 super + p
 	pavucontrol
 
@@ -30,13 +24,18 @@ super + p
 
 # terminal emulator
 super + Return
-	kitty
-
+	alacritty
 
 # program launcher
-super + @space
-	exec ~/.config/scripts/dmenu
+super + d
+	~/.config/scripts/dmenu
 
+super + @space
+	~/.config/rofi/launchers/type-4/launcher.sh
+
+# powermenu
+super + shift + p
+	~/.config/rofi/powermenu/type-3/powermenu.sh
 
 # make sxhkd reload its configuration files:
 super + Escape

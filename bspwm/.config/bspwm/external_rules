@@ -4,36 +4,79 @@ wid=$1
 class=$2
 instance=$3
 consequences=$4
-prop=$(xprop -id "$wid")
+# prop=$(xprop -id "$wid")
+role=`xprop -id "$wid" | awk '/WM_WINDOW_ROLE/ { print $3 }' | sed -e 's/^"//' -e 's/"$//'`
 
+state=
+border=
+rectangle=
 
 ## -------------------------------------------------------------------
 ## Logs --------------------------------------------------------------
 ## -------------------------------------------------------------------
 
-#notify-send "called $1 $2 $3 $4 $title"
-
 echo "-----------------------------------------------------------" >> /tmp/.log_bspwm_external_rules
-echo $wid >> /tmp/.log_bspwm_external_rules
-echo $class >> /tmp/.log_bspwm_external_rules
-echo $instance >> /tmp/.log_bspwm_external_rules
-echo $consequences >> /tmp/.log_bspwm_external_rules
+echo "WID: $wid" >> /tmp/.log_bspwm_external_rules
+echo "CLASS: $class" >> /tmp/.log_bspwm_external_rules
+echo "INSTANCE: $instance" >> /tmp/.log_bspwm_external_rules
+echo "CONSEQ: $consequences" >> /tmp/.log_bspwm_external_rules
 #echo $prop >> /tmp/.log_bspwm_external_rules
+echo "ROLE: $role" >> /tmp/.log_bspwm_external_rules
 
 ## ------------------------------------------------------------------
 
 
+
+
+## ------------------------------------------------------------------
+## FIREFOX RULES ----------------------------------------------------
+## ------------------------------------------------------------------
+if [ $class == firefox ] ; then
 
 ## ------------------------------------------------------------------
 ## Remove borders and set floating for firefox integrated windows ---
 ## ex. Downloads windows --------------------------------------------
 ## ------------------------------------------------------------------
+	if [ $instance == Places ] || [ $role == PictureInPicture ] ; then
+		state="floating"
+		border="off"
+  fi
 
-if [ $class == firefox ] && [ $instance == Places ]; then
-	# notify-send "No Border Window"
+	if [ $role == PictureInPicture ] ; then	
+		rectangle="720x400+600+340"
+	fi
 
-	printf "\nset { state=floating border=off } rules to: \n\t wid $wid; class $class; instance $instance \n" >> /tmp/.log_bspwm_external_rules
-	echo "state=floating border=off"
+
+	if [ $instance == Places ] ; then	
+		rectangle="720x800+600+140"
+	fi
+
+
+
+
+## ------------------------------------------------------------------
+## Remove borders for some firefox popups ---------------------------
+## ex. installing extension popup -----------------------------------
+## ------------------------------------------------------------------
+	if [ $role == Popup ] ; then
+		border="off"
+	fi
+
+
+## ------------------------------------------------------------------
+## Remove borders for some firefox popups ---------------------------
+## ex. installing extension popup -----------------------------------
+## ------------------------------------------------------------------
+##	if [ $role == PictureInPicture ] ; then
+##		state="floating"
+##		border="off"
+##	fi
+
 fi
+## ------------------------------------------------------------------
+
+echo "state=$state border=$border rectangle=$rectangle"
+
+printf "\nCUSTOMIZED_RULES: \nstate=$state \nborder=$border \nrectangle=$rectangle\n" >> /tmp/.log_bspwm_external_rules
 
 #--------------------------------------------------------------------

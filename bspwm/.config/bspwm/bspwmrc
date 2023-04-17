@@ -2,7 +2,7 @@
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 
-bspc monitor -d "[ term ]" "[ www ]" "[ sys ]" "[ dev ]" "[ misc ]"
+bspc monitor -d "term" "www" "sys" "dev" "misc"
 
 ###############################################################################################
 ## ----------------------------------- pretty basic configs -----------------------------------
@@ -53,3 +53,4 @@ bspc rule -a Emacs desktop='^4' follow=on state=fullscreen
 
 bspc config external_rules_command ${HOME}/.config/bspwm/external_rules
 ${HOME}/.config/bspwm/autostart &
+

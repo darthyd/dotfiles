@@ -1,0 +1,157 @@
+{
+  "layer": "top",
+  "position": "top",
+  "mod": "dock",
+  "exclusive": true,
+  "passthrough": false,
+  "gtk-layer-shell": true,
+  "height": 0,
+  "modules-left": [
+    "clock",
+    "custom/weather",
+    "pulseaudio",
+    "wlr/workspaces",
+    "custom/spotify"
+    //"hyprland/window"
+  ],
+  "modules-center": [
+    //"wlr/workspaces"
+    "hyprland/window"
+  ],
+  "modules-right": [
+    "tray",
+    "custom/cputemp",
+    "custom/updates",
+    "custom/kernel",
+    "custom/uptime",
+    "custom/power"
+    //"pulseaudio"
+    //"pulseaudio#microphone"
+  ],
+
+  "hyprland/window": {
+    "format": "{}"
+  },
+  "wlr/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": true,
+    "on-click": "activate",
+    "format": "{icon}",
+    "persistent_workspaces": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": [],
+      "6": [],
+      "7": [],
+      "8": [],
+      "9": [],
+      "10": []
+    },
+    "format-icons": { "1": "#!", "2": "", "3": "", "4": "󰝚", "5": "", "6": "󰝥" }
+  },
+  "custom/cputemp": {
+    "format": " {}",
+    "interval": 2,
+    "exec": "sensors | grep 'AMD TSI' | awk '{ printf $5 }' | tr -d '+'"
+  },
+  "custom/power": {
+    "format":"⏻",
+    "interval": "once",
+    "on-click": "exec ~/.config/rofi/powermenu/type-3/powermenu.sh",
+    "tooltip": false,
+  },
+  "custom/updates": {
+    "format": "󰇚 {}",
+    "interval": 600, // every ten minutes
+    "exec": "i=$(checkupdates); echo \"$i\" | sed '/^$/d' | wc -l; echo \"$i\" |column -t |tr '\n' '\r'", // # of updates and tooltip details
+    //"exec": "checkupdates | wc -l",
+    "exec-if": "exit 0", // always run; consider advanced run conditions
+    "on-click": "kitty -e yay -Syu && pkill -RTMIN+8 waybar", // update system
+    "on-click-right": "pkill -RTMIN+8 waybar",
+    "signal": 8
+  },
+  "custom/uptime": {
+    "format": "󰅐 {}",
+    "interval": 5,
+    "exec": "uptime -p | sed 's/up/uptime/' | sed 's/hour/hora/' | sed 's/minute/minuto/' | sed 's/,/ e/'"
+  },
+  "custom/kernel": {
+    "format": "󰣇 {}",
+    "interval": "once",
+    "exec": "uname -r"
+  },
+  "custom/weather": {
+    "tooltip": true,
+    "format": "{}",
+    "interval": 1200,
+    "exec": "echo $(~/.config/waybar/scripts/wttr); curl -s 'https://wttr.in/Taciba?T&lang=pt-br' | head -27 | tr '\n' '\r'"
+    //"exec": "curl -s 'https://wttr.in/Taciba?format=%c%t' | tr -d '+'"
+    //"tooltip-format": "curl 'https://wttr.in/Taciba'"
+  },
+  "custom/spotify": {
+    "format": " {}",
+    "exec": "~/.config/waybar/scripts/spotify",
+    "on-click": "pgrep spotify && playerctl -p spotify play-pause || env LD_PRELOAD=/usr/local/lib/spotify-adblock.so spotify %U",
+    "on-scroll-up": "pgrep spotify && playerctl -p spotify next",
+    "on-scroll-down": "pgrep spotify && playerctl -p spotify previous",
+    "interval": 1
+  },
+  "tray": {
+    "icon-size": 13,
+    "spacing": 10
+  },
+  "clock": {
+    "format": "{: %R   %d/%m}",
+    "on-click": "thunderbird -calendar",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+  },
+  "backlight": {
+    "device": "intel_backlight",
+    "format": "{icon} {percent}%",
+    "format-icons": ["", "", ""],
+    "on-scroll-up": "brightnessctl set 1%+",
+    "on-scroll-down": "brightnessctl set 1%-",
+    "min-length": 6
+  },
+  "battery": {
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 20
+    },
+    "format": "{icon} {capacity}%",
+    "format-charging": " {capacity}%",
+    "format-plugged": " {capacity}%",
+    "format-alt": "{time} {icon}",
+    "format-icons": ["", "", "", "", "", "", "", "", "", "", ""]
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "tooltip": false,
+    "format-muted": " Muted",
+    "on-click": "$HOME/.config/polybar/scripts/pipewire-control togmute; $HOME/.config/scripts/volume_brightness_notify notif_vol",
+    "on-scroll-up": "$HOME/.config/polybar/scripts/pipewire-control --volume-max 100 up; $HOME/.config/scripts/volume_brightness_notify notif_vol",
+    "on-scroll-down": "$HOME/.config/polybar/scripts/pipewire-control --volume-max 100 down; $HOME/.config/scripts/volume_brightness_notify notif_vol",
+    "scroll-step": 5,
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["", "", ""]
+    }
+  },
+  "pulseaudio#microphone": {
+    "format": "{format_source}",
+    "format-source": " {volume}%",
+    "format-source-muted": " Muted",
+    "on-click": "pamixer --default-source -t",
+    "on-scroll-up": "pamixer --default-source -i 5",
+    "on-scroll-down": "pamixer --default-source -d 5",
+    "scroll-step": 5
+  }
+}

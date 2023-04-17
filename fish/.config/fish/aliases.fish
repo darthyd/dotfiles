@@ -32,3 +32,16 @@ alias snano 'sudo nano'
 ##----------------------- EMACS
 alias emc 'emacsclient -nc -a "emacs"'
 alias em 'emacsclient -t -a "emacs"'
+
+
+##----------------------- KITTY
+alias img 'kitty +kitten icat'
+
+##---------------------- CONFIG FILES
+alias bspwmrc "nano ~/.config/bspwm/bspwmrc"
+alias autostart "nano ~/.config/bspwm/autostart"
+alias extrules "nano ~/.config/bspwm/external_rules"
+alias sxhkdrc "nano ~/.config/sxhkd/sxhkdrc"
+alias conf.ini "nano ~/.config/polybar/config.ini"
+alias mod.ini "nano ~/.config/polybar/modules.ini"
+alias kitty.conf "nano ~/.config/kitty/kitty.conf"

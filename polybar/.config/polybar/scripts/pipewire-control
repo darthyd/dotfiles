@@ -5,12 +5,6 @@
 # https://github.com/marioortizmanero/polybar-pulseaudio-control #
 ##################################################################
 
-# Deprecated values, to be removed in a next release. This is kept around to
-# be displayed for users using it in custom FORMAT
-# shellcheck disable=SC2034
-ICON_SINK="Replaced by ICON_NODE, see https://github.com/marioortizmanero/polybar-pulseaudio-control/releases/tag/v3.0.0"
-SINK_NICKNAME="Replaced by NODE_NICKNAME, see https://github.com/marioortizmanero/polybar-pulseaudio-control/releases/tag/v3.0.0"
-
 # Defaults for configurable values, expected to be set by command-line arguments
 AUTOSYNC="no"
 COLOR_MUTED="%{F#6b6b6b}"
@@ -29,29 +23,6 @@ declare -A NODE_NICKNAMES
 declare -a ICONS_VOLUME
 declare -a NODE_BLACKLIST
 
-
-function get_volume {
-    pactl get-sink-volume @DEFAULT_SINK@ | grep -Po '[0-9]{1,3}(?=%)' | head -1
-}
-
-# Uses regex to get mute status from pactl
-function get_mute {
-    pactl get-sink-mute @DEFAULT_SINK@ | grep -Po '(?<=Mute: )(yes|no)'
-}
-
-function show_volume_notif {
-    volume=`get_volume`
-	mute=`get_mute`
-
-    if [ $mute == "yes" ] ; then
-    	dunstify -t 1000 -r 2593 -u normal " MUTED" -h int:value:$volume -h string:hlcolor:#767080
-    else
-    	dunstify -t 1000 -r 2593 -u normal " $volume%" -h int:value:$volume -h string:hlcolor:#9F74F0
-    	[ $volume != "100" ] && paplay /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
-	fi
-}
-
-
 # Special variable: within the script, pactl, grep, and awk commands are used
 # on sinks or sources, depending on NODE_TYPE.
 #
@@ -67,7 +38,8 @@ function show_volume_notif {
 SINK_OR_SOURCE="ink"
 
 # Environment & global constants for the script
-export LC_ALL=C  # Some calls depend on English outputs of pactl
+#export LC_ALL=C
+LANGUAGE=en_US  # Some calls depend on English outputs of pactl
 END_COLOR="%{F-}"  # For Polybar colors
 
 
@@ -205,6 +177,9 @@ function volDown() {
         echo "PulseAudio not running"
         return 1
     fi
+
+    getCurVol "$curNode"
+
     pactl "set-s${SINK_OR_SOURCE}-volume" "$curNode" "-$VOLUME_STEP%"
 
     if [ $OSD = "yes" ]; then showOSD "$curNode"; fi
@@ -352,10 +327,9 @@ function showOSD() {
     else
         getCurNode
     fi
-    #getCurVol "$curNode"
-    #getIsMuted "$curNode"
-    #qdbus org.kde.kded /modules/kosd showVolume "$VOL_LEVEL" "$IS_MUTED"
-	show_volume_notif
+    getCurVol "$curNode"
+    getIsMuted "$curNode"
+    qdbus org.kde.kded /modules/kosd showVolume "$VOL_LEVEL" "$IS_MUTED"
 }
 
 

@@ -1,14 +1,15 @@
 #!/bin/sh
 
 xrandr --output HDMI-A-0 --primary --mode 1920x1080
+lxpolkit &
 picom &
 polybar example &
 dunst &
 pipewire &
 nitrogen --restore &
 numlockx on
-nm-applet &
-flameshot &
+#nm-applet &
+#flameshot &
 xsetroot -cursor_name left_ptr
 
 notify-send "We are up and running!!"
