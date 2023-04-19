@@ -1,3 +1,8 @@
 #!/usr/bin/env bash
 
-curl -s "https://wttr.in/Taciba?format=%c%t" | tr -d '+' || echo "N/A"
+location="Taciba"
+format="&format=%c+%C+|%t\n"
+lang="&lang=pt-br"
+
+curl -s 'https://wttr.in/'$location'?T'$lang$format | tr -s ' +' ' ' || echo "N/A"
+curl -s 'https://wttr.in/'$location'?2T'$lang | head -27 | tr '\n' '\r'

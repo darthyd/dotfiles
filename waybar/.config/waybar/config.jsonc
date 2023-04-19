@@ -68,7 +68,7 @@
     "exec": "i=$(checkupdates); echo \"$i\" | sed '/^$/d' | wc -l; echo \"$i\" |column -t |tr '\n' '\r'", // # of updates and tooltip details
     //"exec": "checkupdates | wc -l",
     "exec-if": "exit 0", // always run; consider advanced run conditions
-    "on-click": "kitty -e yay -Syu && pkill -RTMIN+8 waybar", // update system
+    "on-click": "alacritty --class float -e yay -Syu && pkill -RTMIN+8 waybar", // update system
     "on-click-right": "pkill -RTMIN+8 waybar",
     "signal": 8
   },
@@ -86,9 +86,11 @@
     "tooltip": true,
     "format": "{}",
     "interval": 1200,
-    "exec": "echo $(~/.config/waybar/scripts/wttr); curl -s 'https://wttr.in/Taciba?T&lang=pt-br' | head -27 | tr '\n' '\r'"
+    "exec": "~/.config/waybar/scripts/wttr",
+    "on-click": "pkill -RTMIN+7 waybar",
     //"exec": "curl -s 'https://wttr.in/Taciba?format=%c%t' | tr -d '+'"
     //"tooltip-format": "curl 'https://wttr.in/Taciba'"
+    "signal": 7
   },
   "custom/spotify": {
     "format": " {}",

@@ -3,6 +3,7 @@ if status is-interactive
 
     ## https://aur.archlinux.org/shell-color-scripts.git
     colorscript -e crunchbang-mini
+    pfetch
 end
 
 ## path config
