@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-location="Taciba"
+location="19590-000"
 format="&format=%c+%C+|%t\n"
 lang="&lang=pt-br"
 
 curl -s 'https://wttr.in/'$location'?T'$lang$format | tr -s ' +' ' ' || echo "N/A"
-curl -s 'https://wttr.in/'$location'?2T'$lang | head -27 | tr '\n' '\r'
+curl -s 'https://wttr.in/'$location'?2T'$lang | head -28 | tr '\n' '\r'

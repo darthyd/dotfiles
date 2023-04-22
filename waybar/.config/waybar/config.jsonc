@@ -21,6 +21,7 @@
   "modules-right": [
     "tray",
     "custom/cputemp",
+    "cpu",
     "custom/updates",
     "custom/kernel",
     "custom/uptime",
@@ -49,7 +50,14 @@
       "9": [],
       "10": []
     },
-    "format-icons": { "1": "#!", "2": "", "3": "", "4": "󰝚", "5": "", "6": "󰝥" }
+    "format-icons": {
+      "1": "#!",
+      "2": "",
+      "3": "",
+      "4": "󰝚",
+      "5": "",
+      "6": "󰝥"
+    }
   },
   "custom/cputemp": {
     "format": " {}",
@@ -57,10 +65,19 @@
     "exec": "sensors | grep 'AMD TSI' | awk '{ printf $5 }' | tr -d '+'"
   },
   "custom/power": {
-    "format":"⏻",
+    "format": "⏻",
     "interval": "once",
     "on-click": "exec ~/.config/rofi/powermenu/type-3/powermenu.sh",
-    "tooltip": false,
+    "tooltip": false
+  },
+  "cpu": {
+    "interval": 3,
+    "format": "CPU {usage}% ({load})",
+    "states": {
+      "warning": 70,
+      "critical": 90
+    },
+    "on-click": "alacritty -e btop"
   },
   "custom/updates": {
     "format": "󰇚 {}",
